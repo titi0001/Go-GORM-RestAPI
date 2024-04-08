@@ -15,7 +15,7 @@ var (
 )
 
 func ConectaDb() {
-	
+
 	// Carrega as variáveis de ambiente de um arquivo .env
 	err := godotenv.Load()
 	if err != nil {
@@ -33,11 +33,13 @@ func ConectaDb() {
 	if host == "" || user == "" || password == "" || dbname == "" || port == "" || sslmode == "" {
 		log.Fatal("Alguma(s) variável(s) de ambiente não está(ão) definida(s)")
 	}
+	
 	// Monta a string de conexão
 	strConexao := "host=" + host + " user=" + user + " password=" + password + " dbname=" + dbname + " port=" + port + " sslmode=" + sslmode
-	// strConexao := "host=localhost user=root password=root dbname=root port=5432 sslmode=disable"
+
 	DB, err = gorm.Open(postgres.Open(strConexao), &gorm.Config{})
 	if err != nil {
 		log.Panic("Erro ao conectar com o banco de dados")
 	}
+
 }
