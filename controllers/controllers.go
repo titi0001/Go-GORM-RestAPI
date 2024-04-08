@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/titi0001/Go-GORM-RestAPI/database"
@@ -15,19 +14,16 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "Home Page")
 }
 
-func TodasPersonalidades (w http.ResponseWriter, r *http.Request) {
+func TodasPersonalidades(w http.ResponseWriter, r *http.Request) {
 	var p []models.Personalidade
 	database.DB.Find(&p)
 	json.NewEncoder(w).Encode(p)
 }
 
-func RetornaUmaPersonalidade (w http.ResponseWriter, r * http.Request) {
+func RetornaUmaPersonalidade(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
-
-	for _, personalidade := range models.Personalidades {
-		if strconv.Itoa(personalidade.Id) == id {
-			json.NewEncoder(w).Encode(personalidade)
-		}
-	}
+	var person models.Personalidade
+	database.DB.First(&person, id)
+	json.NewEncoder(w).Encode(person)
 }
